@@ -25,10 +25,10 @@ LinkedList *LinkedListadd(LinkedList *list, void *value){
 }
 
 void *LinkedListpop(LinkedList **listptr){
-    LinkedList *list=*listptr;
-    if(list==NULL){
+    if(*listptr==NULL){
         return NULL;
     }
+    LinkedList *list=*listptr;
     //stores the head's value
     void* val=list->value;
     //updates the head of the list to the next value
@@ -45,7 +45,7 @@ HashSet *createHashSet(){
     ret->size = 25;
     ret->length = 0;
     //sets all elements in the array to a default value
-    for(int i=0;i<50;i++){
+    for(int i=0;i<25;i++){
         ret->set[i]=createLinkedList();
     }
     return ret;
@@ -105,7 +105,7 @@ void resizeHash(HashSet *set, int (*hashFunc)(HashSet*, void*)){
         }
         //loop through all items in the linkedlist 
         LinkedList *temp = old[i];
-        while(temp!=NULL){
+        while(temp!=NULL&&temp->length!=0){
             HashSetadd(newSize, temp->value, hashFunc);
             //goes to the next spot
             LinkedListpop(&temp);

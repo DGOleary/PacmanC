@@ -14,7 +14,6 @@ int intHash(HashSet *set, void *add){
     int seed = 11;
     //combines all the values into one hash mod the size 
     int hash = (seed * (prime + *(int*)add)) % set->size;
-
     return hash;
 }
 
