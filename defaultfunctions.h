@@ -21,10 +21,10 @@ struct LinkedList{
 LinkedList *createLinkedList();
 
 //function to add to the front of the LinkedList
-LinkedList *LinkedListadd(LinkedList *list, void *value);
+LinkedList *LinkedListAdd(LinkedList *list, void *value);
 
 //function to pop the head of the list off
-void *LinkedListpop(LinkedList **listptr);
+void *LinkedListPop(LinkedList **listptr);
 
 //HashSet functions and data
 
@@ -41,10 +41,10 @@ typedef struct {
 HashSet *createHashSet();
 
 //function to add to a HashSet, takes in a user defined hashing function
-void HashSetadd(HashSet *set, void *add, int (*hashFunc)(HashSet*, void*));
+void HashSetAdd(HashSet *set, void *add, int (*hashFunc)(HashSet*, void*));
 
 //function to get item from a HashSet, returns NULL if not present, uses a user defined equality function for the specific type
-bool HashSetcontains(HashSet *set, void *item, int (*hashFunc)(HashSet*, void*), bool (*equalsFunc)(void*, void*));
+bool HashSetContains(HashSet *set, void *item, int (*hashFunc)(HashSet*, void*), bool (*equalsFunc)(void*, void*));
 
 //function that resizes a HashSet, takes in the HashSet to add to and a function that defines how to hash an object
 void resizeHash(HashSet *set, int (*hashFunc)(HashSet*, void*));
@@ -63,7 +63,10 @@ struct BinaryTreeNode{
 //function to create a BinaryTree
 BinaryTreeNode *CreateBinaryTree(void *val);
 
-//Adds to a BinaryTreeNode in a BST manner
+//adds to a BinaryTreeNode in a BST manner
 void AddBST(BinaryTreeNode *node, void *value, int (*compareFunc)(void*, void*));
+
+//checks if an item is in a BST
+bool CheckBST(BinaryTreeNode *node, void *value, int (*compareFunc)(void*, void*));
 
 #endif // DEFAULT_FUNCTIONS_H
