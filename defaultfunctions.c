@@ -24,7 +24,7 @@ LinkedList *LinkedListAdd(LinkedList *list, void *value){
     return ret;
 }
 
-void *LinkedListpop(LinkedList **listptr){
+void *LinkedListPop(LinkedList **listptr){
     if(*listptr==NULL){
         return NULL;
     }
@@ -64,7 +64,7 @@ void HashSetAdd(HashSet *set, void *add, int (*hashFunc)(HashSet*, void*)){
     set->set[hash]=LinkedListAdd(set->set[hash], add);
 }
 
-bool HashSetcontains(HashSet *set, void *item, int (*hashFunc)(HashSet*, void*), bool (*equalsFunc)(void*, void*)){
+bool HashSetContains(HashSet *set, void *item, int (*hashFunc)(HashSet*, void*), bool (*equalsFunc)(void*, void*)){
     //checks for null references
     if(set==NULL||set->set==NULL){
         return false;
@@ -108,7 +108,7 @@ void resizeHash(HashSet *set, int (*hashFunc)(HashSet*, void*)){
         while(temp!=NULL&&temp->length!=0){
             HashSetAdd(newSize, temp->value, hashFunc);
             //goes to the next spot
-            LinkedListpop(&temp);
+            LinkedListPop(&temp);
         }
     }
     //frees the old array
@@ -119,24 +119,28 @@ void resizeHash(HashSet *set, int (*hashFunc)(HashSet*, void*)){
 BinaryTreeNode *CreateBinaryTree(void *val){
     BinaryTreeNode *temp = (BinaryTreeNode*)malloc(sizeof(BinaryTreeNode));
     temp->value=val;
+    temp->less=NULL;
+    temp->more=NULL;
+    return temp;
 }
 
 void AddBST(BinaryTreeNode *node, void *value, int (*compareFunc)(void*, void*)){
+    printf("add go %d\n",node->value);
     //stores the comparison
+    printf("val 1 %d\n val 2%d\n",node->value, value);
     int comp = compareFunc(node->value, value);
+    printf("compared %d\n", comp);
     //if the value already exists don't add it, so only add new values
     if(comp>1){
         if(node->more==NULL){
-            BinaryTreeNode *temp = (BinaryTreeNode*)malloc(sizeof(BinaryTreeNode));
-            temp->value=value;
+            BinaryTreeNode *temp = CreateBinaryTree(value);
             node->more=temp;
         }else{
             AddBST(node->more, value, compareFunc);
         }
     }else if(comp<1){
         if(node->less==NULL){
-            BinaryTreeNode *temp = (BinaryTreeNode*)malloc(sizeof(BinaryTreeNode));
-            temp->value=value;
+            BinaryTreeNode *temp = CreateBinaryTree(value);
             node->less=temp;
         }else{
             AddBST(node->less, value, compareFunc);
@@ -144,14 +148,23 @@ void AddBST(BinaryTreeNode *node, void *value, int (*compareFunc)(void*, void*))
     }
 }
 
-void CheckBST(BinaryTreeNode *node, void *value, int (*compareFunc)(void*, void*)){
+bool BSTContains(BinaryTreeNode *node, void *value, int (*compareFunc)(void*, void*)){
+    printf("check cont\n");
+    //if it makes it all the way through to a null end, then the value is no there and it's false
     if(node==NULL){
         return false;
     }
-    //if the value already exists don't add it, so only add new values
-    if(compareFunc(node->value, value)!=0){
-       return CheckBST(node, value, compareFunc)
+    //if the value isn't equal keep trying to go through
+    int compVal = compareFunc(node->value, value);
+    if(compVal != 0){
+        if(compVal <0){
+            return BSTContains(node->more, value, compareFunc);
+        }else{
+            return BSTContains(node->less, value, compareFunc);
+        }
+       
     }else{
+        //when the value is the same, it's true
         return true;
     }
 }

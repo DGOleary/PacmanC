@@ -67,6 +67,6 @@ BinaryTreeNode *CreateBinaryTree(void *val);
 void AddBST(BinaryTreeNode *node, void *value, int (*compareFunc)(void*, void*));
 
 //checks if an item is in a BST
-bool CheckBST(BinaryTreeNode *node, void *value, int (*compareFunc)(void*, void*));
+bool BSTContains(BinaryTreeNode *node, void *value, int (*compareFunc)(void*, void*));
 
 #endif // DEFAULT_FUNCTIONS_H

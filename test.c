@@ -24,62 +24,76 @@ bool intEquality(void *num1, void *num2){
     return *(int*)num1==*(int*)num2;
 }
 
+int intCompare(void *num1, void *num2){
+    return *(int*)num1 - *(int*)num2;
+}
+
 int main(int argc, char *argv[]){
-    LinkedList *test=createLinkedList();
-    int num=5;
-    printf("%d len\n", test->length);
-    int *nump=&(int){5};
-    test=LinkedListadd(test, nump);
-    nump=&(int){6};
-    test=LinkedListadd(test, nump);
-    nump=&(int){10};
-    test=LinkedListadd(test, nump);
-    nump=&(int){50};
-    test=LinkedListadd(test, nump);
-    printf("length %d\n", test->length);
-    while(test!=NULL){
-        printf("pop: %d\n",*(int*)LinkedListpop(&test));
-    }
-    // int *temp=(int*)LinkedListpop(&test);
+    // LinkedList *test=createLinkedList();
+    // int num=5;
+    // printf("%d len\n", test->length);
+    // int *nump=&(int){5};
+    // test=LinkedListAdd(test, nump);
+    // nump=&(int){6};
+    // test=LinkedListAdd(test, nump);
+    // nump=&(int){10};
+    // test=LinkedListAdd(test, nump);
+    // nump=&(int){50};
+    // test=LinkedListAdd(test, nump);
+    // printf("length %d\n", test->length);
+    // while(test!=NULL){
+    //     printf("pop: %d\n",*(int*)LinkedListPop(&test));
+    // }
+    // int *temp=(int*)LinkedListPop(&test);
     // printf("hi1\n");
     // printf("%d\n", *temp);
-    // temp=(int*)LinkedListpop(&test);
+    // temp=(int*)LinkedListPop(&test);
     // printf("hi2\n");
     // printf("%d\n", *temp);
-    // temp=(int*)LinkedListpop(&test);
+    // temp=(int*)LinkedListPop(&test);
     // printf("hi3\n");
     // printf("%d\n", *temp);
-    // temp=(int*)LinkedListpop(&test);
+    // temp=(int*)LinkedListPop(&test);
     // printf("hi4\n");
     // printf("%d\n", *temp);
-    // temp=(int*)LinkedListpop(&test);
+    // temp=(int*)LinkedListPop(&test);
     // printf("hi5\n");
     // printf("%d\n", *temp==NULL);
 
-    HashSet *hash = createHashSet();
-    HashSetadd(hash, &(int){5}, intHash);
-    HashSetadd(hash, &(int){15}, intHash);
-    HashSetadd(hash, &(int){556}, intHash);
-    HashSetadd(hash, &(int){84865}, intHash);
-    HashSetadd(hash, &(int){546546}, intHash);
-    HashSetadd(hash, &(int){51646068}, intHash);
-    printf("TESTING 11111 !!!!!!!!! \n");
-    printf("contain %d\n",HashSetcontains(hash, &(int){5}, intHash, intEquality));
-    printf("contain %d\n",HashSetcontains(hash, &(int){15}, intHash, intEquality));
-    printf("contain %d\n",HashSetcontains(hash, &(int){556}, intHash, intEquality));
-    printf("contain %d\n",HashSetcontains(hash, &(int){84865}, intHash, intEquality));
-    printf("contain %d\n",HashSetcontains(hash, &(int){546546}, intHash, intEquality));
-    printf("contain %d\n",HashSetcontains(hash, &(int){51646068}, intHash, intEquality));
-    resizeHash(hash, intHash);
-    printf("TESTING !!!!!!!!! \n");
-    printf("contain %d\n",HashSetcontains(hash, &(int){5}, intHash, intEquality));
-    printf("contain %d\n",HashSetcontains(hash, &(int){15}, intHash, intEquality));
-    printf("contain %d\n",HashSetcontains(hash, &(int){556}, intHash, intEquality));
-    printf("contain %d\n",HashSetcontains(hash, &(int){84865}, intHash, intEquality));
-    printf("contain %d\n",HashSetcontains(hash, &(int){546546}, intHash, intEquality));
-    printf("contain %d\n",HashSetcontains(hash, &(int){51646068}, intHash, intEquality));
+    // HashSet *hash = createHashSet();
+    // HashSetAdd(hash, &(int){5}, intHash);
+    // HashSetAdd(hash, &(int){15}, intHash);
+    // HashSetAdd(hash, &(int){556}, intHash);
+    // HashSetAdd(hash, &(int){84865}, intHash);
+    // HashSetAdd(hash, &(int){546546}, intHash);
+    // HashSetAdd(hash, &(int){51646068}, intHash);
+    // printf("TESTING 11111 !!!!!!!!! \n");
+    // printf("contain %d\n",HashSetContains(hash, &(int){5}, intHash, intEquality));
+    // printf("contain %d\n",HashSetContains(hash, &(int){15}, intHash, intEquality));
+    // printf("contain %d\n",HashSetContains(hash, &(int){556}, intHash, intEquality));
+    // printf("contain %d\n",HashSetContains(hash, &(int){84865}, intHash, intEquality));
+    // printf("contain %d\n",HashSetContains(hash, &(int){546546}, intHash, intEquality));
+    // printf("contain %d\n",HashSetContains(hash, &(int){51646068}, intHash, intEquality));
+    // resizeHash(hash, intHash);
+    // printf("TESTING !!!!!!!!! \n");
+    // printf("contain %d\n",HashSetContains(hash, &(int){5}, intHash, intEquality));
+    // printf("contain %d\n",HashSetContains(hash, &(int){15}, intHash, intEquality));
+    // printf("contain %d\n",HashSetContains(hash, &(int){556}, intHash, intEquality));
+    // printf("contain %d\n",HashSetContains(hash, &(int){84865}, intHash, intEquality));
+    // printf("contain %d\n",HashSetContains(hash, &(int){546546}, intHash, intEquality));
+    // printf("contain %d\n",HashSetContains(hash, &(int){51646068}, intHash, intEquality));
 
     BinaryTreeNode *bst = CreateBinaryTree(&(int){10});
     printf("%d\n", *(int*)bst->value);
+    AddBST(bst, &(int){1}, intCompare);
+    AddBST(bst, &(int){15}, intCompare);
+    AddBST(bst, &(int){456}, intCompare);
+    AddBST(bst, &(int){58}, intCompare);
+    AddBST(bst, &(int){0}, intCompare);
+    AddBST(bst, &(int){-1}, intCompare);
+    AddBST(bst, &(int){100}, intCompare);
+    AddBST(bst, &(int){25}, intCompare);
+    printf("pass add\n");
+    printf("%d\n",BSTContains(bst, &(int){15}, intCompare));
 }
 
