@@ -152,7 +152,6 @@ bool BSTContains(BinaryTreeNode *node, void *value, int (*compareFunc)(void*, vo
     }
     //if the value isn't equal keep trying to go through
     int compVal = compareFunc(node->value, value);
-    printf("val 1 %d\nval 2 %d\n",*(int*)node->value,*(int*)value);
     if(compVal != 0){
         if(compVal < 0){
             return BSTContains(node->more, value, compareFunc);

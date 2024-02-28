@@ -97,5 +97,6 @@ int main(int argc, char *argv[]){
     printf("more %d\n", *(int*)bst->more->value);
     printf("less %d\n", *(int*)bst->less->value);
     printf("%d\n",BSTContains(bst, &(int){15}, intCompare));
+    printf("%d\n",BSTContains(bst, &(int){500000}, intCompare));
 }
 

@@ -54,7 +54,9 @@ int main(int argc, char *argv[])
 
     // loads texture atlas
     SDL_Surface *surface = IMG_Load("atlas.png");
+    //load the background image
     SDL_Surface *background = IMG_Load("background.png");
+    //checks both for errors
     if (!surface||!background)
     {
         printf("error creating surface: %s", SDL_GetError());
@@ -98,16 +100,14 @@ int main(int argc, char *argv[])
     SDL_QueryTexture(tex, NULL, NULL, &pac.w, &pac.h);
     pac.w=25;
     pac.h=25;
+
+    SDL_Rect ghosts[] = (SDL_Rect*)malloc(4*sizeof(SDL_Rect));
     
     //creates rectangle for the background
     SDL_Rect bg;
     SDL_QueryTexture(back_tex, NULL, NULL, &bg.w, &bg.h);
     bg.w=825;
     bg.h=400;
-
-    //TODO adjust size of pacman sprite
-    // pac.w /= 4;
-    // pac.h /= 4;
 
     Sprite_Values *back;
 
@@ -137,7 +137,6 @@ int main(int argc, char *argv[])
 
     while (!close_requested)
     {
-
         SDL_Event event;
         while (SDL_PollEvent(&event))
         {
