@@ -94,6 +94,8 @@ int main(int argc, char *argv[]){
     AddBST(bst, &(int){100}, intCompare);
     AddBST(bst, &(int){25}, intCompare);
     printf("pass add\n");
+    printf("more %d\n", *(int*)bst->more->value);
+    printf("less %d\n", *(int*)bst->less->value);
     printf("%d\n",BSTContains(bst, &(int){15}, intCompare));
 }
 

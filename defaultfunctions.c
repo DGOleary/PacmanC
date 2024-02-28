@@ -125,20 +125,17 @@ BinaryTreeNode *CreateBinaryTree(void *val){
 }
 
 void AddBST(BinaryTreeNode *node, void *value, int (*compareFunc)(void*, void*)){
-    printf("add go %d\n",node->value);
     //stores the comparison
-    printf("val 1 %d\n val 2%d\n",node->value, value);
     int comp = compareFunc(node->value, value);
-    printf("compared %d\n", comp);
     //if the value already exists don't add it, so only add new values
-    if(comp>1){
+    if(comp<1){
         if(node->more==NULL){
             BinaryTreeNode *temp = CreateBinaryTree(value);
             node->more=temp;
         }else{
             AddBST(node->more, value, compareFunc);
         }
-    }else if(comp<1){
+    }else if(comp>1){
         if(node->less==NULL){
             BinaryTreeNode *temp = CreateBinaryTree(value);
             node->less=temp;
@@ -149,15 +146,15 @@ void AddBST(BinaryTreeNode *node, void *value, int (*compareFunc)(void*, void*))
 }
 
 bool BSTContains(BinaryTreeNode *node, void *value, int (*compareFunc)(void*, void*)){
-    printf("check cont\n");
     //if it makes it all the way through to a null end, then the value is no there and it's false
     if(node==NULL){
         return false;
     }
     //if the value isn't equal keep trying to go through
     int compVal = compareFunc(node->value, value);
+    printf("val 1 %d\nval 2 %d\n",*(int*)node->value,*(int*)value);
     if(compVal != 0){
-        if(compVal <0){
+        if(compVal < 0){
             return BSTContains(node->more, value, compareFunc);
         }else{
             return BSTContains(node->less, value, compareFunc);
