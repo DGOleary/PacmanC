@@ -11,6 +11,31 @@
 #define WINDOW_HEIGHT (400)
 #define SPEED (300)
 
+//function used to check if boundaries are the same, assumes boundaries don't start at the same origin
+int compareBoundary(void *bound1, void *bound2){
+    //casts the voids to boundaries
+    Boundary bounds1=*(Boundary*)bound1;
+    Boundary bounds2=*(Boundary*)bound2;
+    if(bounds1.x-bounds2.x==0){
+        return bounds1.y-bounds2.y;
+    }
+    return bounds1.x-bounds2.x;
+}
+
+//function to hash boundaries
+int boundaryHash(HashSet *set, void *add){
+    //casts to a boundary
+    Boundary bound=*(Boundary*)add;
+    //array of primes for each value in the Boundary struct
+    int prime[] = {17, 619, 1861, 79};
+    //initial prime to seed function 
+    int seed = 67;
+    //combines all the values into one hash mod the size 
+    int hash = (seed * (prime[0] + bound.x) * (prime[1] + bound.y) * (prime[2] + bound.h) * (prime[3] + bound.w)) % set->size;
+    return hash;
+}
+
+
 int main(int argc, char *argv[])
 {
     // area of a single tile from the texture atlas
@@ -101,7 +126,7 @@ int main(int argc, char *argv[])
     pac.w=25;
     pac.h=25;
 
-    SDL_Rect ghosts[] = (SDL_Rect*)malloc(4*sizeof(SDL_Rect));
+    SDL_Rect *ghosts = (SDL_Rect*)malloc(4*sizeof(SDL_Rect));
     
     //creates rectangle for the background
     SDL_Rect bg;
@@ -134,6 +159,20 @@ int main(int argc, char *argv[])
     pac_val.frame_offsets[1] = (int[]){25, 0};
 
     bool close_requested = false;
+
+    //create boundaries for the maze
+        Boundary bottom;
+        bottom.x=0;
+        bottom.y=375;
+        bottom.w=25;
+        bottom.h=25;
+
+        HashSet *boundaries = createHashSet();
+
+        HashSetAdd(boundaries, &bottom, boundaryHash);
+        // set the positions in the struct
+        pac.y = (int)y_pos;
+        pac.x = (int)x_pos;
 
     while (!close_requested)
     {
@@ -225,18 +264,23 @@ int main(int argc, char *argv[])
         x_pos += x_vel / 60;
         y_pos += y_vel / 60;
         
-        if (x_pos <= 0)
-            x_pos = 0;
-        if (y_pos <= 0)
-            y_pos = 0;
-        if (x_pos >= WINDOW_WIDTH - pac.w)
-            x_pos = WINDOW_WIDTH - pac.w;
-        if (y_pos >= WINDOW_HEIGHT - pac.h)
-            y_pos = WINDOW_HEIGHT - pac.h;
+        // if (x_pos <= 0)
+        //     x_pos = 0;
+        // if (y_pos <= 0)
+        //     y_pos = 0;
+        // if (x_pos >= WINDOW_WIDTH - pac.w)
+        //     x_pos = WINDOW_WIDTH - pac.w;
+        // if (y_pos >= WINDOW_HEIGHT - pac.h)
+        //     y_pos = WINDOW_HEIGHT - pac.h;
 
-        // set the positions in the struct
-        pac.y = (int)y_pos;
-        pac.x = (int)x_pos;
+        Boundary *pos;
+        pos->x=x_pos;
+        pos->y=y_pos;
+        pos->h=25;
+        pos->y=25;
+        if(HashSetContains(boundaries, pos, boundaryHash, compareBoundary)){
+            printf("bounds check");
+        }
 
         // clear the window
         SDL_RenderClear(rend);
@@ -257,6 +301,10 @@ int main(int argc, char *argv[])
     SDL_DestroyWindow(window);
     SDL_Quit();
 }
+
+
+
+
 
 //TODO function that will make background
 // void drawLevel(SDL_Renderer *rend, SDL_Texture *tex, Sprite_Values **vals){
